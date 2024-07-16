@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="audit_report_wizard_view" model="ir.ui.view">
+        <field name="name">Audit Report</field>
+        <field name="model">tp1_audit_report.audit_report_wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <style>
+                    @media (min-width: 576px) {
+                        div.modal-dialog:has(div.audit_report_wizard_view_container) {
+                            max-width: 320px !important;
+                        }
+                    }
+                </style>
+                <div class="container audit_report_wizard_view_container">
+                    <div class="row">
+                        <div class="col">
+                            <h3>
+                                <group>
+                                    <field name="date" string="Fecha:"/>
+                                </group>
+                            </h3>
+                            <h3>
+                                <group>
+                                    <field name="journal_id" string="Diario:" options="{'no_create': True, 'no_open': True}"/>
+                                </group>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <div class="d-flex w-100 justify-content-center align-items-center">
+                        <button string="Generar" type="object" name="generate_report" class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel" class="btn-secondary"/>
+                    </div>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

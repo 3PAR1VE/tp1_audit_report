@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record model="ir.actions.act_window" id="audit_report_wizard_action">
+        <field name="name">Audit Report</field>
+        <field name="res_model">tp1_audit_report.audit_report_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="audit_report_menu"
+              action="audit_report_wizard_action" parent="account_reports.account_reports_audit_reports_menu"
+              sequence="400"/>
+</odoo>

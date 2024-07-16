@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="audit_report_user" model="res.groups">
+            <field name="name">Audit Report Access</field>
+        </record>
+    </data>
+</odoo>
