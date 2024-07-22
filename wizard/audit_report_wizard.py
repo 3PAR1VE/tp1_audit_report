@@ -24,7 +24,8 @@ class AuditReportWizard(models.TransientModel):
         domain = [
             ('date', '=', self.date),
             ('journal_id', '=', self.journal_id.id),
-            ('move_type', '=', 'entry')
+            ('move_type', '=', 'entry'),
+            ('state', '=', 'posted')
         ]
 
         moves = self.env['account.move'].search(domain)
@@ -53,7 +54,6 @@ class AuditReportWizard(models.TransientModel):
         }
 
         report = self.env.ref('tp1_audit_report.audit_report_action')
-        # report.write({'name': self._get_report_base_filename()})
 
         return report.report_action(self, data=data)
 
