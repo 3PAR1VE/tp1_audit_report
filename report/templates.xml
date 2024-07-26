@@ -26,6 +26,14 @@
                                 </tr>
                             </t>
                         </tbody>
+                        <tfooter>
+                            <tr>
+                                <td class="invisible"></td>
+                                <td class="invisible"></td>
+                                <td class="text-nowrap fs-6 text-end"><strong><t t-esc="report_total" widget="float"/></strong></td>
+                                <td class="text-nowrap fs-6 text-end"><strong><t t-esc="report_total_ref" widget="float"/></strong></td>
+                            </tr>
+                        </tfooter>
                     </table>
                 </div>
             </t>
