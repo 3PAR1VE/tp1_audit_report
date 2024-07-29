@@ -6,6 +6,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools import pytz
 
+_logger = logging.getLogger(__name__)
+
 
 class AuditReportWizard(models.TransientModel):
     _name = "tp1_audit_report.audit_report_wizard"
