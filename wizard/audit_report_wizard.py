@@ -1,12 +1,14 @@
 import datetime
 import locale
 import logging
+import platform
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools import pytz
 
 _logger = logging.getLogger(__name__)
+running_system = platform.system().lower()
 
 
 class AuditReportWizard(models.TransientModel):
@@ -18,8 +20,21 @@ class AuditReportWizard(models.TransientModel):
     def generate_report(self):
         current_user_id = self.env.user.id
         tz = pytz.timezone(self.env.user.tz) or pytz.utc
-        _logger.info(f"THE LOCALE IS: '{self.env.user.lang}'")
-        locale.setlocale(locale.LC_ALL, self.env.user.lang)
+        _logger.info(f"LANGUAGE IS: '{self.env.user.lang}'")
+        lcid = ''
+        locs = locale.windows_locale.values()
+
+        if running_system == 'linux':
+            locs = locale.locale_alias.values()
+
+        for loc in locs:
+            if self.env.user.lang in loc:
+                lcid = loc
+                _logger.info(f"AVAILABLE LOCALE IS: '{lcid}'")
+                break
+
+        locale.setlocale(locale.LC_ALL, lcid)
+
         data = {
             'date': self.date.strftime("%d/%m/%Y"),
             'user_name': None,
