@@ -1,5 +1,6 @@
 import datetime
 import locale
+import logging
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
@@ -15,6 +16,7 @@ class AuditReportWizard(models.TransientModel):
     def generate_report(self):
         current_user_id = self.env.user.id
         tz = pytz.timezone(self.env.user.tz) or pytz.utc
+        _logger.info(f"THE LOCALE IS: '{self.env.user.lang}'")
         locale.setlocale(locale.LC_ALL, self.env.user.lang)
         data = {
             'date': self.date.strftime("%d/%m/%Y"),
@@ -48,8 +50,8 @@ class AuditReportWizard(models.TransientModel):
             moves_list.append({
                 'company_name': move.partner_id.name,
                 'memo': move.ref,
-                'amount': f"Bs {locale.format('%.2f', round(amount,2), True)}",
-                'amount_ref': f"$ {locale.format('%.2f', round(amount_ref,2), True)}"
+                'amount': f"Bs {locale.format_string('%.2f', round(amount,2), True)}",
+                'amount_ref': f"$ {locale.format_string('%.2f', round(amount_ref,2), True)}"
             })
             report_total += amount
             report_total_ref += amount_ref
@@ -60,8 +62,8 @@ class AuditReportWizard(models.TransientModel):
             'report_date': pytz.utc.localize(datetime.datetime.now()).astimezone(tz).strftime("%d/%m/%Y %H:%M:%S"),
             'company_name': self.env.company.name,
             'moves': moves_list,
-            'report_total': f"Bs {locale.format('%.2f', round(report_total,2), True)}",
-            'report_total_ref': f"$ {locale.format('%.2f', round(report_total_ref, 2), True)}"
+            'report_total': f"Bs {locale.format_string('%.2f', round(report_total,2), True)}",
+            'report_total_ref': f"$ {locale.format_string('%.2f', round(report_total_ref, 2), True)}"
         }
 
         report = self.env.ref('tp1_audit_report.audit_report_action')
