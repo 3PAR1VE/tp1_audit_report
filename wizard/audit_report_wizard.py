@@ -28,31 +28,28 @@ class AuditReportWizard(models.TransientModel):
             'company_name': self.env.company.name
         }
 
-        domain = [
+        payments = self.env['account.payment'].search([
             ('date', '=', self.date),
             ('journal_id', '=', self.journal_id.id),
-            ('move_type', '=', 'entry'),
             ('state', '=', 'posted')
-        ]
+        ])
 
-        moves = self.env['account.move'].search(domain)
-
-        if not moves:
+        if not payments:
             raise UserError(_("No journal entries found"))
 
-        moves_list = []
+        report_payments = []
 
         report_total = 0
         report_total_ref = 0
 
-        for move in moves:
-            if not move.partner_id:
+        for payment in payments:
+            if not payment.partner_id:
                 continue
-            amount = move.amount_total_signed
-            amount_ref = next((l.credit_usd for l in move.line_ids if l.credit_usd > 0), 0)
-            moves_list.append({
-                'company_name': move.partner_id.name,
-                'memo': move.ref,
+            amount = payment.amount_total_signed
+            amount_ref = next((l.credit_usd for l in payment.line_ids if l.credit_usd > 0), 0)
+            report_payments.append({
+                'company_name': payment.partner_id.name,
+                'memo': payment.ref,
                 'amount': f"Bs {locale.format_string('%.2f', round(amount,2), True)}",
                 'amount_ref': f"$ {locale.format_string('%.2f', round(amount_ref,2), True)}"
             })
@@ -64,7 +61,7 @@ class AuditReportWizard(models.TransientModel):
             'journal_name': self.journal_id.name,
             'report_date': pytz.utc.localize(datetime.datetime.now()).astimezone(tz).strftime("%d/%m/%Y %H:%M:%S"),
             'company_name': self.env.company.name,
-            'moves': moves_list,
+            'moves': report_payments,
             'report_total': f"Bs {locale.format_string('%.2f', round(report_total,2), True)}",
             'report_total_ref': f"$ {locale.format_string('%.2f', round(report_total_ref, 2), True)}"
         }

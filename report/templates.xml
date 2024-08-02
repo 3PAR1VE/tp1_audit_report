@@ -6,14 +6,13 @@
                 <div class="page">
                     <link rel="stylesheet" href="/tp1_audit_report/static/src/css/audit_report.css"/>
                     <h6 class="mb-3 text-end"><t t-esc="report_date"/></h6>
-                    <h4 class="fw-bold mb-3">Reporte de Auditoría <t t-esc="journal_name"/> <t t-esc="date"/></h4>
+                    <h4 class="fw-bold mb-3">Reporte de Auditoría - <t t-esc="journal_name"/> - <t t-esc="date"/></h4>
                     <table class="table table-sm table-stripped W-100">
                         <thead>
                             <tr>
                                 <th class="text-nowrap text-uppercase text-start">Company</th>
                                 <th class="text-nowrap text-uppercase text-start">Reference</th>
-                                <th class="text-nowrap text-uppercase">Amount</th>
-                                <th class="text-nowrap text-uppercase">Amount (USD)</th>
+                                <th colspan="2" class="text-nowrap text-uppercase">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
