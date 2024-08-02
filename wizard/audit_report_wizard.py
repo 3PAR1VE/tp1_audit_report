@@ -45,16 +45,14 @@ class AuditReportWizard(models.TransientModel):
         for payment in payments:
             if not payment.partner_id:
                 continue
-            amount = payment.amount_total_signed
-            amount_ref = next((l.credit_usd for l in payment.line_ids if l.credit_usd > 0), 0)
             report_payments.append({
                 'company_name': payment.partner_id.name,
                 'memo': payment.ref,
-                'amount': f"Bs {locale.format_string('%.2f', round(amount,2), True)}",
-                'amount_ref': f"$ {locale.format_string('%.2f', round(amount_ref,2), True)}"
+                'amount': f"Bs {locale.format_string('%.2f', round(p.amount,2), True)}",
+                'amount_ref': f"$ {locale.format_string('%.2f', round(p.amount_ref,2), True)}"
             })
-            report_total += amount
-            report_total_ref += amount_ref
+            report_total += p.amount
+            report_total_ref += p.amount_ref
 
         data = {
             'date': self.date.strftime("%d/%m/%Y"),

@@ -119,7 +119,7 @@ msgstr ""
 #: code:addons/tp1_audit_report/wizard/audit_report_wizard.py:0
 #, python-format
 msgid "No journal entries found"
-msgstr "No se han encontrado asientos para los criterios ingresados"
+msgstr "No se han encontrado movimientos para los criterios ingresados"
 
 #. module: tp1_audit_report
 #: model_terms:ir.ui.view,arch_db:tp1_audit_report.audit_report
