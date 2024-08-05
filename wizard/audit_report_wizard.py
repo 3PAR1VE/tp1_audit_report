@@ -49,10 +49,10 @@ class AuditReportWizard(models.TransientModel):
                 'company_name': payment.partner_id.name,
                 'memo': payment.ref,
                 'amount': f"Bs {locale.format_string('%.2f', round(payment.amount,2), True)}",
-                'amount_ref': f"$ {locale.format_string('%.2f', round(payment.amount_ref,2), True)}"
+                'amount_ref': f"$ {locale.format_string('%.2f', round(payment.amount/payment.tax_today,2), True)}"
             })
             report_total += payment.amount
-            report_total_ref += payment.amount_ref
+            report_total_ref += payment.amount/payment.tax_today
 
         data = {
             'date': self.date.strftime("%d/%m/%Y"),
